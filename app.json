@@ -1,0 +1,21 @@
+{
+  "name": "Boomi Flow AWS Polly Service",
+  "description": "A plugin that allows your Boomi Flow apps to use the AWS Polly API",
+  "repository": "https://github.com/manywho/service-aws-polly",
+  "logo": "https://s3.amazonaws.com/manywho-service-assets/icons/service-aws-polly.png",
+  "keywords": ["manywho", "boomi", "aws", "polly", "plugin", "workflow", "text-to-speech", "tts"],
+  "env": {
+    "AWS_S3_BUCKET": {
+      "description": "The AWS S3 bucket used to temporarily store generated audio",
+      "required": true
+    },
+    "AWS_ACCESS_KEY": {
+      "description": "A valid AWS access key used to temporarily store generated audio",
+      "required": true
+    },
+    "AWS_SECRET_KEY": {
+      "description": "A valid AWS secret key used to temporarily store generated audio",
+      "required": true
+    }
+  }
+}
