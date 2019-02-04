@@ -28,7 +28,28 @@ public class DescriptionTest extends BaseTest {
 
         Assert.assertEquals(200, response.getStatus());
         String body = response.readEntity(String.class);
-        JSONAssert.assertEquals(getResourceContent("description/empty-description.json"), body , true);
+        JSONAssert.assertEquals(getResourceContent("description/requests/empty.json"), body , true);
+        response.close();
+
+        server.stop();
+    }
+
+
+    @Test
+    public void testSecondMetadataCall() throws IOException, JSONException, URISyntaxException {
+
+        StoppableUndertowServer server = startServer();
+        String url = testUrl("/metadata");
+        Entity<String> entity = Entity.entity(getResourceContent("description/requests/with-parameters.json"), MediaType.APPLICATION_JSON_TYPE);
+
+        Response response = new ResteasyClientBuilder().build()
+                .target(url)
+                .request()
+                .post(entity);
+
+        Assert.assertEquals(200, response.getStatus());
+        String body = response.readEntity(String.class);
+        JSONAssert.assertEquals(getResourceContent("description/requests/empty.json"), body , true);
         response.close();
 
         server.stop();
