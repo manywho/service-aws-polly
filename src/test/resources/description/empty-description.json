@@ -1,0 +1,82 @@
+{
+  "culture": null,
+  "uri": null,
+  "configurationValues": [
+    {
+      "developerName": "Region",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Access Key",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Secret Key",
+      "contentValue": null,
+      "contentType": "ContentPassword",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Bucket Name",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    }
+  ],
+  "providesAutoBinding": false,
+  "providesDatabase": false,
+  "providesFiles": false,
+  "providesIdentity": false,
+  "providesListening": false,
+  "providesLogic": true,
+  "providesSocial": false,
+  "providesNotifications": false,
+  "providesSmartSave": false,
+  "providesSharing": false,
+  "providesViews": false,
+  "providesVoting": false,
+  "actions": [
+    {
+      "uriPart": "actions/synthesize/speech",
+      "serviceInputs": [
+        {
+          "developerName": "Text",
+          "contentValue": null,
+          "contentType": "ContentString",
+          "typeElementDeveloperName": null,
+          "ordinal": 0,
+          "required": true
+        }
+      ],
+      "serviceOutputs": [
+        {
+          "developerName": "Audio URL",
+          "contentValue": null,
+          "contentType": "ContentString",
+          "typeElementDeveloperName": null,
+          "ordinal": 0,
+          "required": true
+        }
+      ],
+      "developerName": "Synthesize Speech",
+      "developerSummary": "Synthesize text to speech, and return a URL to the generated audio",
+      "serviceActionOutcomes": [],
+      "isViewMessageAction": false
+    }
+  ],
+  "install": {
+    "typeElements": []
+  }
+}
