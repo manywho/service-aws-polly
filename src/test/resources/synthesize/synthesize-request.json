@@ -1,0 +1,89 @@
+{
+  "joinPlayerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?join=007400c9-5e32-4f1b-a989-d36ee2edec5c",
+  "playerUri": "https://flow.manywho.com/67204d5c-6022-474d-8f80-0d576b43d02d/play/default?flow-id=0413b804-06e6-42c4-8d6d-8e935222807e",
+  "uri": "https://manywho-box-local.ngrok.io/api/box/3/trigger-assign/flow",
+  "inputs": [
+    {
+      "valueElementId": "aeac1ad3-03a7-4889-8e88-b8dfc72851cd",
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Text",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "this is a test text",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "outcomes": null,
+  "executionMode": "",
+  "token": "571396c2-70c4-4ca7-802f-90cb98a774e4",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "stateId": "007400c9-5e32-4f1b-a989-d36ee2edec5c",
+  "callbackUri": "https://flow.manywho.com/api/run/1/response",
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "configurationValues": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Bucket Name",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "bucket-name-test",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Access Key",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "access-key-test",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Secret Key",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "secret-key-test",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Region",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "eu-west-2",
+      "contentType": "ContentString",
+      "objectData": null
+    }
+  ],
+  "authorization": {
+    "serviceElementId": "803ab3e1-062c-478e-8754-e100485f84f2",
+    "globalAuthenticationType": "ALL_USERS",
+    "streamBehaviourType": "NONE",
+    "groups": null,
+    "users": null,
+    "locations": null
+  },
+  "annotations": null,
+  "attributes": null
+}
