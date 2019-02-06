@@ -1,0 +1,25 @@
+{
+  "token": "571396c2-70c4-4ca7-802f-90cb98a774e4",
+  "tenantId": "67204d5c-6022-474d-8f80-0d576b43d02d",
+  "culture": null,
+  "annotations": {},
+  "invokeType": "FORWARD",
+  "waitMessage": null,
+  "outputs": [
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Audio URL",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "http://audio.test",
+      "contentType": "ContentString",
+      "objectData": []
+    }
+  ],
+  "selectedOutcomeId": null,
+  "rootFaults": {},
+  "valueFaults": [],
+  "mode": null
+}

@@ -7,6 +7,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <version.manywho.sdk>2.0.0-beta-09</version.manywho.sdk>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <version.aws>1.11.228</version.aws>
@@ -16,7 +17,12 @@
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-server-undertow</artifactId>
-            <version>2.0.0-beta-06</version>
+            <version>${version.manywho.sdk}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.manywho.sdk</groupId>
+            <artifactId>sdk-server-servlet3</artifactId>
+            <version>${version.manywho.sdk}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -34,9 +40,22 @@
             <version>${version.aws}</version>
         </dependency>
         <dependency>
-            <groupId>com.manywho.sdk</groupId>
-            <artifactId>sdk-server-servlet3</artifactId>
-            <version>2.0.0-beta-06</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>1.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.24.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
