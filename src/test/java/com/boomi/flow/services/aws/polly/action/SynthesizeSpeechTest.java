@@ -10,13 +10,15 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.boomi.flow.services.aws.polly.ApplicationConfiguration;
 import com.boomi.flow.services.aws.polly.BaseTest;
-import com.boomi.flow.services.aws.polly.StoppableUndertowServer;
 import com.boomi.flow.services.aws.polly.guice.AmazonCredentialsFactory;
 import com.boomi.flow.services.aws.polly.guice.AmazonPollyFactory;
 import com.boomi.flow.services.aws.polly.guice.AmazonS3Factory;
 import com.boomi.flow.services.aws.polly.synthesize.SynthesizeSpeechCommand;
 import com.google.inject.AbstractModule;
+import com.manywho.sdk.services.servers.EmbeddedServer;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.json.JSONException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +29,8 @@ import org.mockito.MockitoAnnotations;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
@@ -37,11 +39,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class SynthesizeSpeechTest extends BaseTest {
-
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
+    private static EmbeddedServer server;
 
     @Mock
     protected AmazonCredentialsFactory amazonCredentialsFactory;
@@ -67,33 +65,48 @@ public class SynthesizeSpeechTest extends BaseTest {
     @InjectMocks
     protected SynthesizeSpeechCommand synthesizeSpeechCommand;
 
+    @Before
+    public void setup() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        server = startServer();
+    }
+
+    @After
+    public void cleanUp() {
+        server.stop();
+    }
+
     @Test
-    public void testSynthesizeSpeechTest() throws MalformedURLException {
-
-        StoppableUndertowServer server = startServer();
-
+    public void testSynthesizeSpeechTest() throws IOException, JSONException {
         // the same configuration as sent in the request
         ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration("bucket-name-test",
                 "access-key-test", "secret-key-test", "eu-west-2");
 
-        String url = testUrl("/actions/synthesize/speech");
-        Entity<String> entity = Entity.entity(getResourceContent("synthesize/synthesize-request.json"), MediaType.APPLICATION_JSON_TYPE);
+        String url = createTestUrl("/actions/synthesize/speech");
+        Entity<String> entity = Entity.entity(getResourceContent("/synthesize/synthesize-request.json"), MediaType.APPLICATION_JSON_TYPE);
 
-        when(amazonCredentialsFactory.create(eq(applicationConfiguration))).thenReturn(awsCredentials);
-        when(amazonPollyFactory.create(eq(applicationConfiguration), any(AWSCredentials.class))).thenReturn(amazonPolly);
-        when(amazonS3Factory.create(eq(applicationConfiguration), any(AWSCredentials.class))).thenReturn(amazonS3);
+        when(amazonCredentialsFactory.create(eq(applicationConfiguration)))
+                .thenReturn(awsCredentials);
+
+        when(amazonPollyFactory.create(eq(applicationConfiguration), any(AWSCredentials.class)))
+                .thenReturn(amazonPolly);
+
+        when(amazonS3Factory.create(eq(applicationConfiguration), any(AWSCredentials.class)))
+                .thenReturn(amazonS3);
 
         SynthesizeSpeechRequest synthesizeSpeechRequest = new SynthesizeSpeechRequest()
                 .withOutputFormat(OutputFormat.Mp3)
                 .withText("this is a test text")
                 .withVoiceId(VoiceId.Amy);
 
-        when(amazonPolly.synthesizeSpeech(eq(synthesizeSpeechRequest))).thenReturn(synthesizeSpeechResult);
+        when(amazonPolly.synthesizeSpeech(eq(synthesizeSpeechRequest)))
+                .thenReturn(synthesizeSpeechResult);
 
         when(amazonS3.generatePresignedUrl(eq("bucket-name-test"), any(String.class), any(Date.class)))
                 .thenReturn(new URL("http://audio.test"));
 
-        when(synthesizeSpeechResult.getAudioStream()).thenReturn(mock(InputStream.class));
+        when(synthesizeSpeechResult.getAudioStream())
+                .thenReturn(mock(InputStream.class));
 
         Response response = new ResteasyClientBuilder().build()
                 .target(url)
@@ -103,10 +116,8 @@ public class SynthesizeSpeechTest extends BaseTest {
         verify(amazonS3, atLeastOnce()).putObject(eq("bucket-name-test"), any(String.class), any(InputStream.class), any(ObjectMetadata.class));
 
         Assert.assertEquals(200, response.getStatus());
-        assertExpectedBody("synthesize/synthesize-response.json", response);
+        assertExpectedBody("/synthesize/synthesize-response.json", response);
         response.close();
-
-        server.stop();
     }
 
     protected AbstractModule injectModule() {

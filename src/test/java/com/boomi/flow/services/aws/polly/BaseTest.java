@@ -1,6 +1,8 @@
 package com.boomi.flow.services.aws.polly;
 
 import com.google.inject.AbstractModule;
+import com.manywho.sdk.services.servers.EmbeddedServer;
+import com.manywho.sdk.services.servers.undertow.UndertowServer;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.util.PortProvider;
 import org.json.JSONException;
@@ -9,6 +11,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 public class BaseTest {
 
@@ -24,48 +27,28 @@ public class BaseTest {
     /**
      * start the server without database speed up the tests
      */
-    protected StoppableUndertowServer startServer() {
-        StoppableUndertowServer server = new StoppableUndertowServer();
+    protected EmbeddedServer startServer() throws Exception {
+        EmbeddedServer server = new UndertowServer();
 
         server.addModule(injectModule());
         server.setApplication(Application.class);
 
-        try {
-            server.start("/api/aws/polly/1", 8080);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        server.start("/api/aws/polly/1", 8080);
 
         return server;
     }
 
-    protected static String testUrl(String path) {
+    protected static String createTestUrl(String path) {
         return String.format("http://%s:%d/api/aws/polly/1%s", PortProvider.getHost(), 8080, path);
     }
 
-    protected String getResourceContent(String requestPathFile) {
-        try {
-            InputStream stream = this.getClass().getResourceAsStream(getFromResource(requestPathFile));
-            return IOUtils.toString(stream);
+    protected String getResourceContent(String requestPathFile) throws IOException {
+        InputStream stream = this.getClass().getResourceAsStream(requestPathFile);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        return IOUtils.toString(stream, Charset.forName("UTF-8"));
     }
 
-    protected void assertExpectedBody(String pathExpectedBody, Response actualResponse) {
-        try {
-            JSONAssert.assertEquals(getResourceContent(pathExpectedBody), actualResponse.readEntity(String.class) , true);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String getFromResource(String path) {
-        if (path.startsWith("/")) {
-            return path;
-        } else {
-            return "/" + path;
-        }
+    protected void assertExpectedBody(String pathExpectedBody, Response actualResponse) throws JSONException, IOException {
+        JSONAssert.assertEquals(getResourceContent(pathExpectedBody), actualResponse.readEntity(String.class) , false);
     }
 }
