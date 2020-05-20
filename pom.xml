@@ -10,7 +10,7 @@
         <version.manywho.sdk>2.0.0</version.manywho.sdk>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <version.aws>1.11.228</version.aws>
+        <version.aws>1.11.786</version.aws>
     </properties>
 
     <dependencies>
